@@ -1,3 +1,10 @@
+//
+//  ZZUser.swift
+//  Eggstreme
+//
+//
+
+
 import SwiftUI
 
 class ZZUser: ObservableObject {

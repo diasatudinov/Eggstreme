@@ -1,3 +1,10 @@
+//
+//  ZZDeviceManager.swift
+//  Eggstreme
+//
+//
+
+
 import UIKit
 
 class ZZDeviceManager {
