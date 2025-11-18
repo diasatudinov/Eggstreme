@@ -14,7 +14,7 @@ struct EMenuView: View {
     @State private var showDailyReward = false
     @State private var showShop = false
     
-    //    @StateObject var shopVM = CPShopViewModel()
+    @StateObject var shopVM = EShopViewModel()
     
     var body: some View {
         
@@ -88,11 +88,8 @@ struct EMenuView: View {
         .fullScreenCover(isPresented: $showSettings) {
             ESettingsView()
         }
-        .fullScreenCover(isPresented: $showDailyReward) {
-            //                SBDailyView()
-        }
         .fullScreenCover(isPresented: $showShop) {
-            //                SBShopView(viewModel: shopVM)
+            EShopView(viewModel: shopVM)
         }
         
     }

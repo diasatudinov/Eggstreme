@@ -1,33 +1,38 @@
+//
+//  CPShopViewModel.swift
+//  Eggstreme
+//
+//
+
+
 import SwiftUI
 
 
-final class CPShopViewModel: ObservableObject {
+final class EShopViewModel: ObservableObject {
     // MARK: – Shop catalogues
     @Published var shopBgItems: [JGItem] = [
-        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1SB", text: "gameBgText1SB", price: 100),
-        JGItem(name: "bg2", image: "tile_diamond2", icon: "gameBgIcon2SB", text: "gameBgText2SB", price: 100),
-        JGItem(name: "bg3", image: "tile_diamond3", icon: "gameBgIcon3SB", text: "gameBgText3SB", price: 100),
-        JGItem(name: "bg4", image: "tile_diamond4", icon: "gameBgIcon4SB", text: "gameBgText4SB", price: 100),
+        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
+        JGItem(name: "bg2", image: "tile_diamond", icon: "gameBgIcon2E", text: "gameBgText2E", price: 100),
+        JGItem(name: "bg3", image: "tile_diamond", icon: "gameBgIcon3E", text: "gameBgText3E", price: 100),
         
     ]
     
     @Published var shopSkinItems: [JGItem] = [
-        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1SB", text: "skinText1SB", price: 100),
-        JGItem(name: "skin2", image: "b_king_human2", icon: "skinIcon2SB", text: "skinText2SB", price: 100),
-        JGItem(name: "skin3", image: "b_king_human3", icon: "skinIcon3SB", text: "skinText3SB", price: 100),
-        JGItem(name: "skin4", image: "b_king_human4", icon: "skinIcon4SB", text: "skinText4SB", price: 100),
+        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1E", text: "skinText1E", price: 100),
+        JGItem(name: "skin2", image: "b_king_human", icon: "skinIcon2E", text: "skinText2E", price: 100),
+        JGItem(name: "skin3", image: "b_king_human", icon: "skinIcon3E", text: "skinText3E", price: 100),
         
     ]
     
     // MARK: – Bought
     @Published var boughtBgItems: [JGItem] = [
-        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1SB", text: "gameBgText1SB", price: 100),
+        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
     ] {
         didSet { saveBoughtBg() }
     }
     
     @Published var boughtSkinItems: [JGItem] = [
-        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1SB", text: "skinText1SB", price: 100),
+        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1E", text: "skinText1E", price: 100),
     ] {
         didSet { saveBoughtSkins() }
     }
@@ -41,10 +46,10 @@ final class CPShopViewModel: ObservableObject {
     }
     
     // MARK: – UserDefaults keys
-    private let bgKey            = "currentBgSB"
-    private let boughtBgKey      = "boughtBgSB"
-    private let skinKey          = "currentSkinSB"
-    private let boughtSkinKey    = "boughtSkinSB"
+    private let bgKey            = "currentBgE"
+    private let boughtBgKey      = "boughtBgE"
+    private let skinKey          = "currentSkinE"
+    private let boughtSkinKey    = "boughtSkinE"
     
     // MARK: – Init
     init() {
