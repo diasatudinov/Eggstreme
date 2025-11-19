@@ -15,85 +15,88 @@ import Combine
 struct RaceGameView: View {
     @StateObject private var viewModel = RaceGameViewModel()
     @State private var sceneSize: CGSize = .zero
-    
+    @Environment(\.presentationMode) var presentationMode
+
+    let shopVM = EShopViewModel()
     var body: some View {
         ZStack {
             // Градиентный фон
-            LinearGradient(colors: [.purple.opacity(0.8), .blue, .indigo],
-                           startPoint: .topLeading, endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+            if let currentBg = shopVM.currentBgItem {
+                Image(currentBg.image)
+                    .resizable()
+                    .ignoresSafeArea()
+                   
+            }
+            
+            
             
             GeometryReader { geo in
-                SpriteView(scene: viewModel.scene)
+                SpriteView(scene: viewModel.scene, options: [.allowsTransparency])
                     .background(Color.clear)
                     .ignoresSafeArea()
-                    .onAppear { viewModel.attachSceneSize(geo.size) }
-                    .onChange(of: geo.size) { viewModel.attachSceneSize($0) }
             }
             
             // SwiftUI HUD и кнопки
             VStack {
                 HStack {
-                    Text("Время: \(viewModel.timeRemainingString)")
-                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                        .padding(8)
-                        .background(.ultraThinMaterial, in: Capsule())
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                        
+                        
+                    } label: {
+                        Image(.xmarkE)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: ZZDeviceManager.shared.deviceType == .pad ? 100:50)
+                    }
+                    
                     
                     Spacer()
                     
-                    Text("Скорость соперников: \(viewModel.speedHint)")
-                        .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .padding(8)
-                        .background(.ultraThinMaterial, in: Capsule())
+                    ZStack {
+                        Image(.timeBg)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: ZZDeviceManager.shared.deviceType == .pad ? 100:50)
+                        Text("\(viewModel.timeRemainingString)")
+                            .font(.system(size: 20, weight: .bold, design: .rounded))
+                            .foregroundStyle(.white)
+                    }
+                    Spacer()
+                    
                 }
                 .padding(.horizontal)
                 .padding(.top, 10)
                 
                 Spacer()
-                
-                // Кнопки управления игроком (смена полосы)
-                HStack(spacing: 24) {
-                    Button { viewModel.movePlayer(direction: .left) }  label: { Label("Влево", systemImage: "arrow.left.circle.fill") }
-                        .buttonStyle(.borderedProminent)
-                    Button { viewModel.movePlayer(direction: .right) } label: { Label("Вправо", systemImage: "arrow.right.circle.fill") }
-                        .buttonStyle(.borderedProminent)
-                    
-                    Button {
-                            viewModel.resetGame()
-                            viewModel.startGame()
-                        } label: {
-                            Label("Рестарт", systemImage: "arrow.counterclockwise.circle.fill")
-                                .font(.title3.weight(.bold))
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.orange)
-                }
-                .padding(.bottom, 16)
-                
+
                 // Кнопки старта/рестарта
                 HStack(spacing: 16) {
+                    
+                    Button { viewModel.movePlayer(direction: .left) }  label: {
+                        Image(.leftBtnE)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 80)
+                    }
+                    Button { viewModel.movePlayer(direction: .right) } label: {
+                        Image(.rightBtnE)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 80)
+                    }
+                    Spacer()
                     Button {
                         viewModel.startGame()
                     } label: {
-                        Text(viewModel.state == .running ? "Идёт гонка…" : "Старт")
-                            .font(.title3.bold())
-                            .frame(maxWidth: 240)
-                            .padding(.vertical, 10)
+                        Image(.playIconE)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 80)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(viewModel.state == .running ? .green.opacity(0.6) : .green)
                     .disabled(viewModel.state == .running)
                     
-                    Button {
-                        viewModel.resetGame()
-                    } label: {
-                        Text("Сброс")
-                            .font(.title3.bold())
-                            .frame(maxWidth: 140)
-                            .padding(.vertical, 10)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.orange)
+                    
                 }
                 .padding(.bottom, 18)
             }
@@ -110,45 +113,73 @@ struct RaceGameView: View {
 // MARK: - Result Overlay
 
 private struct ResultOverlay: View {
+    @Environment(\.presentationMode) var presentationMode
+
     let isWin: Bool
     var onAgain: () -> Void
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.45).ignoresSafeArea()
-            VStack(spacing: 16) {
-                Text(isWin ? "Победа" : "Поражение")
-                    .font(.system(size: 44, weight: .heavy, design: .rounded))
-                    .foregroundStyle(isWin ? .green : .red)
+            Color.black.opacity(0.5).ignoresSafeArea()
+
+            if isWin {
+                ZStack {
+                    Image(.winBg)
+                        .resizable()
+                        .scaledToFit()
+                    
+                    VStack {
+                        Spacer()
+                        
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                            
+                        } label: {
+                            Image(.nextBtn)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                        }
+                    }.offset(y: 32)
+                }.frame(height: 280)
+            } else {
                 
-                Button(action: onAgain) {
-                    Text("Играть снова")
-                        .font(.title3.bold())
-                        .padding(.horizontal, 24).padding(.vertical, 12)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(.white.opacity(0.25))
+                ZStack {
+                    Image(.loseBg)
+                        .resizable()
+                        .scaledToFit()
+                    
+                    VStack {
+                        Spacer()
+                        
+                        Button {
+                            onAgain()
+                        } label: {
+                            Image(.restartBtn)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                        }
+                    }.offset(y: 32)
+                }.frame(height: 280)
+                
             }
-            .padding(24)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-            .shadow(radius: 20)
         }
-        .transition(.opacity.combined(with: .scale))
     }
 }
 
 // MARK: - Assets
 private enum CarAsset {
-    static let player  = "car_player"
+    static let player  = "skinIcon1E"
     static let enemy1  = "car_enemy1"
     static let enemy2  = "car_enemy2"
 }
 
 private enum ObstacleAsset {
-    static let oil     = "obs_oil"     // масляное пятно (PNG с альфой)
-    static let cone    = "obs_cone"    // дорожный конус
-    static let barrier = "obs_barrier" // барьер/блок
-    static let spikes  = "obs_spikes"  // шипы
+    static let oil     = "obs_oil"
+    static let cone    = "obs_cone"
+    static let barrier = "obs_barrier"
+    static let spikes  = "obs_spikes"
 }
 
 // MARK: - ViewModel & Scene Glue
@@ -237,7 +268,7 @@ private enum ObstacleType: CaseIterable {
     var targetSize: CGSize {
         switch self {
         case .oil:     return CGSize(width: 64, height: 36)
-        case .cone:    return CGSize(width: 32, height: 40)
+        case .cone:    return CGSize(width: 64, height: 36)
         case .barrier: return CGSize(width: 72, height: 28)
         case .spikes:  return CGSize(width: 68, height: 22)
         }
@@ -352,6 +383,8 @@ final class RaceGameScene: SKScene {
     private var isInputReady: Bool {
         isConfigured && laneXs.count == lanesCount && player != nil
     }
+    
+    let shopVM = EShopViewModel()
     
     init(size: CGSize, totalSeconds: Int) {
         self.totalSeconds = totalSeconds
@@ -513,7 +546,12 @@ final class RaceGameScene: SKScene {
                node.anchorPoint = CGPoint(x: 0.5, y: 0.5)
                return node
            }
-        player = car(imageNamed: CarAsset.player)
+        if let currentSkin = shopVM.currentSkinItem {
+            player = car(imageNamed: currentSkin.image)
+        } else {
+            player = car(imageNamed: CarAsset.player)
+        }
+        
         opp1   = car(imageNamed: CarAsset.enemy1)
         opp2   = car(imageNamed: CarAsset.enemy2)
 
@@ -864,9 +902,6 @@ extension RaceGameScene: SKPhysicsContactDelegate {
         obstacles.removeAll { $0 === obstacleNode }
     }
 }
-
-
-
 
 #Preview {
     RaceGameView()

@@ -11,28 +11,28 @@ import SwiftUI
 final class EShopViewModel: ObservableObject {
     // MARK: – Shop catalogues
     @Published var shopBgItems: [JGItem] = [
-        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
-        JGItem(name: "bg2", image: "tile_diamond", icon: "gameBgIcon2E", text: "gameBgText2E", price: 100),
-        JGItem(name: "bg3", image: "tile_diamond", icon: "gameBgIcon3E", text: "gameBgText3E", price: 100),
+        JGItem(name: "bg1", image: "gameBgImage1E", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
+        JGItem(name: "bg2", image: "gameBgImage2E", icon: "gameBgIcon2E", text: "gameBgText2E", price: 100),
+        JGItem(name: "bg3", image: "gameBgImage3E", icon: "gameBgIcon3E", text: "gameBgText3E", price: 100),
         
     ]
     
     @Published var shopSkinItems: [JGItem] = [
-        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1E", text: "skinText1E", price: 100),
-        JGItem(name: "skin2", image: "b_king_human", icon: "skinIcon2E", text: "skinText2E", price: 100),
-        JGItem(name: "skin3", image: "b_king_human", icon: "skinIcon3E", text: "skinText3E", price: 100),
+        JGItem(name: "skin1", image: "skinImage1E", icon: "skinIcon1E", text: "skinText1E", price: 100),
+        JGItem(name: "skin2", image: "skinImage2E", icon: "skinIcon2E", text: "skinText2E", price: 100),
+        JGItem(name: "skin3", image: "skinImage3E", icon: "skinIcon3E", text: "skinText3E", price: 100),
         
     ]
     
     // MARK: – Bought
     @Published var boughtBgItems: [JGItem] = [
-        JGItem(name: "bg1", image: "tile_diamond", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
+        JGItem(name: "bg1", image: "gameBgImage1E", icon: "gameBgIcon1E", text: "gameBgText1E", price: 100),
     ] {
         didSet { saveBoughtBg() }
     }
     
     @Published var boughtSkinItems: [JGItem] = [
-        JGItem(name: "skin1", image: "b_king_human", icon: "skinIcon1E", text: "skinText1E", price: 100),
+        JGItem(name: "skin1", image: "skinImage1E", icon: "skinIcon1E", text: "skinText1E", price: 100),
     ] {
         didSet { saveBoughtSkins() }
     }
@@ -46,10 +46,10 @@ final class EShopViewModel: ObservableObject {
     }
     
     // MARK: – UserDefaults keys
-    private let bgKey            = "currentBgE"
-    private let boughtBgKey      = "boughtBgE"
-    private let skinKey          = "currentSkinE"
-    private let boughtSkinKey    = "boughtSkinE"
+    private let bgKey            = "currentBg2E"
+    private let boughtBgKey      = "boughtBg2E"
+    private let skinKey          = "currentSkin2E"
+    private let boughtSkinKey    = "boughtSkin2E"
     
     // MARK: – Init
     init() {

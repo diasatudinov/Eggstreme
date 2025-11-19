@@ -80,7 +80,7 @@ struct EMenuView: View {
             }
         )
         .fullScreenCover(isPresented: $showGame) {
-            //                GameRootView()
+            RaceGameView()
         }
         .fullScreenCover(isPresented: $showAchievement) {
             EAchievementsView()
