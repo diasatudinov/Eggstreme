@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "car_enemy2.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "skinImage2E.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
